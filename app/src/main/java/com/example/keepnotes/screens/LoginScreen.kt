@@ -1,60 +1,51 @@
 package com.example.keepnotes.screens
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.keepnotes.R
 import com.example.keepnotes.navigation.Screen
+import com.example.keepnotes.ui.theme.primaryColor
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
 
 @Composable
 fun LoginScreen(navController: NavController, context: ComponentActivity) {
     val auth = Firebase.auth
+
     val email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
-    val isPasswordVisible by remember {
-        mutableStateOf(false)
-    }
+    val PasswordVisibility = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.padding(25.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_login),
-            contentDescription = "Login Image",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)
-        )
+//        Image(
+//            painter = painterResource(id = R.drawable.ic_login),
+//            contentDescription = "Login Image",
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(20.dp)
+//        )
         Text(
             modifier = Modifier.padding(top = 16.dp),
             text = "Welcome Back!",
@@ -90,16 +81,19 @@ fun LoginScreen(navController: NavController, context: ComponentActivity) {
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
-            visualTransformation = PasswordVisualTransformation(),
-//            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-//            trailingIcon = {
-//                IconButton(onClick = { password.value = "" }) {
-//                    Icon(
-//                        imageVector = if (isPasswordVisible) Icons.Default. else Icons.Default.AddCircle,
-//                        contentDescription = "Password Toggle"
-//                    )
-//                }
-//            }
+            trailingIcon = {
+                IconButton(onClick = {
+                    PasswordVisibility.value = !PasswordVisibility.value
+                }) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(if (PasswordVisibility.value) R.drawable.ic_visibility else R.drawable.ic_visibility_off),
+                        tint = if (PasswordVisibility.value) primaryColor else Color.Gray,
+                        contentDescription = "as"
+                    )
+                }
+            },
+            visualTransformation = if (PasswordVisibility.value) VisualTransformation.None
+            else PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
@@ -112,7 +106,7 @@ fun LoginScreen(navController: NavController, context: ComponentActivity) {
                         if (task.isSuccessful) {
                             Log.d("TAG", "WelcomeScreen: Login Success")
                             navController.navigate(Screen.MainScreen.route)
-                        } else ( Log.d("TAG", "Failed: ${task.exception}")
+                        } else (Log.d("TAG", "Failed: ${task.exception}")
                                 )
                     }
             },
@@ -130,6 +124,7 @@ fun LoginScreen(navController: NavController, context: ComponentActivity) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(onClick = {
+                navController.popBackStack()
                 navController.navigate(Screen.ForgotPasswordScreen.route)
             }) {
                 Text(text = "Forgot Password?")

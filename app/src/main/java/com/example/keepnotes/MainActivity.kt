@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.keepnotes.navigation.SetupNavGraph
+import com.example.keepnotes.screens.MainScreen
 import com.example.keepnotes.ui.theme.KeepNotesTheme
 import com.example.keepnotes.viewmodel.MainViewModel
 
@@ -20,9 +21,11 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             KeepNotesTheme {
-                val navController = rememberNavController()
-                SetupNavGraph(navController = navController)
+//                    val navController = rememberNavController()
+//                    SetupNavGraph(navController = navController)
+                MainScreen()
 //                WelcomeScreen()
+//                BottomBar()
             }
         }
     }

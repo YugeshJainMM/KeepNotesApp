@@ -9,5 +9,10 @@ val Teal200 = Color(0xFF03DAC5)
 
 val LogoColor = Color(0xFFF4B400)
 
-val primaryColor = Color(0xFF7048B6)
-val whiteBackground = Color(0xFFF7F7F7)
+val primaryColor = Color(0xFFFFFFFF)
+val whiteBackground = Color(0xFFDCE8FD)
+
+val gBLue = Color(0xFF4285F4)
+val gRed = Color(0xFFEA4335)
+val gYellow = Color(0xFFFBBC05)
+val gGreen = Color(0xFF34A853)
