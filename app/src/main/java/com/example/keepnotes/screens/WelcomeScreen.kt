@@ -193,7 +193,6 @@ fun WelcomeScreen(navController: NavController, context: ComponentActivity) {
             Text(text = "Already Registered? ")
             TextButton(onClick = {
                 navController.navigate(Screen.LoginScreen.route)
-//                navController.popBackStack()
             }) {
                 Text(text = "Log In")
             }

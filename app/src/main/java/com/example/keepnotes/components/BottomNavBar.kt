@@ -63,8 +63,8 @@ fun FabBtn() {
         backgroundColor = whiteBackground
     ) {
         Icon(
-            Icons.Filled.Add,
-            tint = Color.Red,
+            painter = painterResource(id = R.drawable.untitled),
+            tint = Color.Transparent,
             contentDescription = "Add",
             modifier = Modifier.size(40.dp)
         )

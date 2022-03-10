@@ -2,9 +2,7 @@ package com.example.keepnotes.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -23,7 +21,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun NavDrawer(scaffoldState: ScaffoldState) {
     Column {
-        val logoFontSize = 30.dp
         Row(
             modifier = Modifier.padding(start = 15.dp, top = 20.dp, bottom = 36.dp)
         ) {
@@ -36,31 +33,53 @@ fun NavDrawer(scaffoldState: ScaffoldState) {
             Text(text = " Keep", fontSize = 30.sp, fontWeight = FontWeight.Normal)
         }
 
+
         DrawerItem(title = "Notes", icon = R.drawable.ic_notes, scaffoldState = scaffoldState)
-        DrawerItem(title = "Reminders", icon = R.drawable.ic_reminder, scaffoldState = scaffoldState)
-        DrawerItem(title = "Create New Label", icon = R.drawable.ic_create_new_label, scaffoldState = scaffoldState)
+        DrawerItem(
+            title = "Reminders",
+            icon = R.drawable.ic_reminder,
+            scaffoldState = scaffoldState
+        )
+        DrawerItem(
+            title = "Create New Label",
+            icon = R.drawable.ic_create_new_label,
+            scaffoldState = scaffoldState
+        )
         DrawerItem(title = "Archive", icon = R.drawable.ic_archive, scaffoldState = scaffoldState)
         DrawerItem(title = "Deleted", icon = R.drawable.ic_deleted, scaffoldState = scaffoldState)
         DrawerItem(title = "Settings", icon = R.drawable.ic_settings, scaffoldState = scaffoldState)
-        DrawerItem(title = "Help & feedback", icon = R.drawable.ic_help, scaffoldState = scaffoldState)
+        DrawerItem(
+            title = "Help & feedback",
+            icon = R.drawable.ic_help,
+            scaffoldState = scaffoldState
+        )
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DrawerItem(title: String, icon: Int, scaffoldState: ScaffoldState) {
     val coroutineScope = rememberCoroutineScope()
+    val drawerstate = rememberDrawerState(initialValue = DrawerValue.Open)
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp, top = 12.dp)
             .clickable(onClick = {
                 coroutineScope.launch {
-                    scaffoldState.drawerState.close()
+//                    scaffoldState.drawerState.close()
+                    drawerstate.close()
                 }
             }),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(painter = painterResource(id = icon), contentDescription = title, modifier = Modifier.padding(5.dp).size(25.dp))
+        Icon(
+            painter = painterResource(id = icon),
+            contentDescription = title,
+            modifier = Modifier
+                .padding(5.dp)
+                .size(25.dp)
+        )
         Text(text = title, fontSize = 20.sp, modifier = Modifier.padding(start = 8.dp))
     }
 }

@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TopNavBar(scaffoldState: ScaffoldState) {
+    val drawerstate = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val search = remember { mutableStateOf(TextFieldValue()) }
     TopAppBar(
@@ -50,7 +51,7 @@ fun TopNavBar(scaffoldState: ScaffoldState) {
         },
         backgroundColor = whiteBackground,
         navigationIcon = {
-            IconButton(onClick = { coroutineScope.launch { scaffoldState.drawerState.open() } }) {
+            IconButton(onClick = { coroutineScope.launch { drawerstate.open() } }) {
                 Icon(
                     Icons.Filled.Menu,
                     contentDescription = "Menu",

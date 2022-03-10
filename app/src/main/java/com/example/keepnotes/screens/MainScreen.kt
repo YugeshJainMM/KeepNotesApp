@@ -12,7 +12,7 @@ import com.example.keepnotes.components.*
 fun MainScreen() {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
-        topBar = { },
+        topBar = { TopNavBar(scaffoldState = scaffoldState) },
         floatingActionButton = { FabBtn() },
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.End,
@@ -24,7 +24,7 @@ fun MainScreen() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            TopNavBar(scaffoldState = scaffoldState)
+
             StaggeredGrid()
         }
     }
