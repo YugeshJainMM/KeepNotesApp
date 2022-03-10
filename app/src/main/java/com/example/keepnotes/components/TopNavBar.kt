@@ -1,11 +1,7 @@
 package com.example.keepnotes.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -15,13 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -31,8 +24,8 @@ import com.example.keepnotes.ui.theme.whiteBackground
 import kotlinx.coroutines.launch
 
 @Composable
-fun TopNavBar(scaffoldState: ScaffoldState) {
-    val drawerstate = rememberDrawerState(initialValue = DrawerValue.Closed)
+fun TopNavBar(drawerState: DrawerState) {
+
     val coroutineScope = rememberCoroutineScope()
     val search = remember { mutableStateOf(TextFieldValue()) }
     TopAppBar(
@@ -51,7 +44,7 @@ fun TopNavBar(scaffoldState: ScaffoldState) {
         },
         backgroundColor = whiteBackground,
         navigationIcon = {
-            IconButton(onClick = { coroutineScope.launch { drawerstate.open() } }) {
+            IconButton(onClick = { coroutineScope.launch { drawerState.open() } }) {
                 Icon(
                     Icons.Filled.Menu,
                     contentDescription = "Menu",

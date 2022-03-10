@@ -10,21 +10,22 @@ import com.example.keepnotes.components.*
 
 @Composable
 fun MainScreen() {
-    val scaffoldState = rememberScaffoldState()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scaffoldState = rememberScaffoldState(drawerState)
     Scaffold(
-        topBar = { TopNavBar(scaffoldState = scaffoldState) },
+        scaffoldState = scaffoldState,
+        topBar = { TopNavBar(drawerState = drawerState) },
         floatingActionButton = { FabBtn() },
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.End,
         bottomBar = { BottomNavBar() },
-        drawerContent = { NavDrawer(scaffoldState = scaffoldState) }
+        drawerContent = { NavDrawer(drawerState = drawerState) }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-
             StaggeredGrid()
         }
     }

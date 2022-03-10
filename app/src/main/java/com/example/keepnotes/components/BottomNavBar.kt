@@ -1,5 +1,6 @@
 package com.example.keepnotes.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import com.example.keepnotes.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.keepnotes.ui.theme.whiteBackground
@@ -62,11 +64,10 @@ fun FabBtn() {
         shape = RoundedCornerShape(20),
         backgroundColor = whiteBackground
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.untitled),
-            tint = Color.Transparent,
-            contentDescription = "Add",
-            modifier = Modifier.size(40.dp)
+        Image(
+            painter = painterResource(id = R.drawable.fab_button),
+            contentDescription = "",
+            modifier = Modifier.size(30.dp)
         )
     }
 }

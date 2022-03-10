@@ -19,7 +19,7 @@ import com.example.keepnotes.ui.theme.gYellow
 import kotlinx.coroutines.launch
 
 @Composable
-fun NavDrawer(scaffoldState: ScaffoldState) {
+fun NavDrawer(drawerState: DrawerState) {
     Column {
         Row(
             modifier = Modifier.padding(start = 15.dp, top = 20.dp, bottom = 36.dp)
@@ -34,33 +34,32 @@ fun NavDrawer(scaffoldState: ScaffoldState) {
         }
 
 
-        DrawerItem(title = "Notes", icon = R.drawable.ic_notes, scaffoldState = scaffoldState)
+        DrawerItem(title = "Notes", icon = R.drawable.ic_notes, drawerState = drawerState)
         DrawerItem(
             title = "Reminders",
             icon = R.drawable.ic_reminder,
-            scaffoldState = scaffoldState
+            drawerState = drawerState
         )
         DrawerItem(
             title = "Create New Label",
             icon = R.drawable.ic_create_new_label,
-            scaffoldState = scaffoldState
+            drawerState = drawerState
         )
-        DrawerItem(title = "Archive", icon = R.drawable.ic_archive, scaffoldState = scaffoldState)
-        DrawerItem(title = "Deleted", icon = R.drawable.ic_deleted, scaffoldState = scaffoldState)
-        DrawerItem(title = "Settings", icon = R.drawable.ic_settings, scaffoldState = scaffoldState)
+        DrawerItem(title = "Archive", icon = R.drawable.ic_archive, drawerState = drawerState)
+        DrawerItem(title = "Deleted", icon = R.drawable.ic_deleted, drawerState = drawerState)
+        DrawerItem(title = "Settings", icon = R.drawable.ic_settings, drawerState = drawerState)
         DrawerItem(
             title = "Help & feedback",
             icon = R.drawable.ic_help,
-            scaffoldState = scaffoldState
+            drawerState = drawerState
         )
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DrawerItem(title: String, icon: Int, scaffoldState: ScaffoldState) {
+fun DrawerItem(title: String, icon: Int, drawerState: DrawerState) {
     val coroutineScope = rememberCoroutineScope()
-    val drawerstate = rememberDrawerState(initialValue = DrawerValue.Open)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,7 +67,7 @@ fun DrawerItem(title: String, icon: Int, scaffoldState: ScaffoldState) {
             .clickable(onClick = {
                 coroutineScope.launch {
 //                    scaffoldState.drawerState.close()
-                    drawerstate.close()
+                    drawerState.close()
                 }
             }),
         verticalAlignment = Alignment.CenterVertically
