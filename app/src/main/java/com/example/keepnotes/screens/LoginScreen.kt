@@ -1,16 +1,13 @@
 package com.example.keepnotes.screens
 
-import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,31 +18,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.domain.models.Response
 import com.example.keepnotes.R
+import com.example.keepnotes.components.ProgressBar
 import com.example.keepnotes.navigation.Screen
 import com.example.keepnotes.ui.theme.primaryColor
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.keepnotes.viewmodel.AuthViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, context: ComponentActivity) {
-    val auth = Firebase.auth
+fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = hiltViewModel()) {
 
     val email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
-    val PasswordVisibility = remember { mutableStateOf(false) }
+    val passwordVisibility = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.padding(25.dp)
     ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.ic_login),
-//            contentDescription = "Login Image",
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(20.dp)
-//        )
         Text(
             modifier = Modifier.padding(top = 16.dp),
             text = "Welcome Back!",
@@ -83,34 +74,38 @@ fun LoginScreen(navController: NavController, context: ComponentActivity) {
             ),
             trailingIcon = {
                 IconButton(onClick = {
-                    PasswordVisibility.value = !PasswordVisibility.value
+                    passwordVisibility.value = !passwordVisibility.value
                 }) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(if (PasswordVisibility.value) R.drawable.ic_visibility else R.drawable.ic_visibility_off),
-                        tint = if (PasswordVisibility.value) primaryColor else Color.Gray,
+                        imageVector = ImageVector.vectorResource(if (passwordVisibility.value) R.drawable.ic_visibility else R.drawable.ic_visibility_off),
+                        tint = if (passwordVisibility.value) primaryColor else Color.Gray,
                         contentDescription = "as"
                     )
                 }
             },
-            visualTransformation = if (PasswordVisibility.value) VisualTransformation.None
+            visualTransformation = if (passwordVisibility.value) VisualTransformation.None
             else PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                auth.signInWithEmailAndPassword(
+                authViewModel.signInUser(
                     email.value.text.trim(),
                     password.value.text.trim()
                 )
-                    .addOnCompleteListener(context) { task ->
-                        if (task.isSuccessful) {
-                            Log.d("TAG", "WelcomeScreen: Login Success")
-                            navController.navigate(Screen.MainScreen.route)
-                        } else (Log.d("TAG", "Failed: ${task.exception}")
-                                )
-                    }
+//                when(val response = authViewModel.signInState.value) {
+//                    is Response.Loading -> ProgressBar()
+//                    is Response.Success -> if (response.data) {
+//                        LaunchedEffect(response.data) {
+//                            navController.popBackStack()
+//                            navController.navigate(Screen.MainScreen.route)
+//                        }
+//                    }
+//                    is Error -> LaunchedEffect(Unit) {
+//                        printError(response.message)
+//                    }
+//                }
             },
-//            enabled = isFormValid,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
         ) {

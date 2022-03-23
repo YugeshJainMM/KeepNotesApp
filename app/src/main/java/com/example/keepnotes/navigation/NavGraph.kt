@@ -18,10 +18,10 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = Screen.RegisterationScreen.route
     ) {
         composable(route = Screen.RegisterationScreen.route){
-            WelcomeScreen(navController = navController, context = ComponentActivity())
+            WelcomeScreen(navController = navController)
         }
         composable(route = Screen.LoginScreen.route) {
-            LoginScreen(navController = navController, context = ComponentActivity())
+            LoginScreen(navController = navController)
         }
         composable(route = Screen.MainScreen.route) {
             MainScreen()

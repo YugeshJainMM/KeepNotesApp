@@ -7,10 +7,10 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
-val LogoColor = Color(0xFFF4B400)
+val DrawerBg = Color(0xFFEEF3FD)
 
 val primaryColor = Color(0xFFFFFFFF)
-val whiteBackground = Color(0xFFDCE8FD)
+val whiteBackground = Color(0xFFE9F0FC)
 
 val gBLue = Color(0xFF4285F4)
 val gRed = Color(0xFFEA4335)

@@ -1,16 +1,18 @@
 package com.example.keepnotes.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -23,16 +25,17 @@ import com.example.keepnotes.R
 import com.example.keepnotes.ui.theme.whiteBackground
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNavBar(drawerState: DrawerState) {
 
     val coroutineScope = rememberCoroutineScope()
     val search = remember { mutableStateOf(TextFieldValue()) }
-    TopAppBar(
+    SmallTopAppBar(
         modifier = Modifier
-            .padding(start = 16.dp, top = 16.dp, end = 16.dp)
-            .clip(CircleShape),
-        elevation = 4.dp,
+            .padding(start = 16.dp, top = 40.dp, end = 16.dp)
+            .clip(CircleShape)
+            .height(47.dp),
         title = {
             BasicTextField(
                 value = search.value,
@@ -42,7 +45,7 @@ fun TopNavBar(drawerState: DrawerState) {
                 textStyle = TextStyle(color = Color.DarkGray),
             )
         },
-        backgroundColor = whiteBackground,
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = whiteBackground),
         navigationIcon = {
             IconButton(onClick = { coroutineScope.launch { drawerState.open() } }) {
                 Icon(
@@ -53,42 +56,35 @@ fun TopNavBar(drawerState: DrawerState) {
                         .size(25.dp)
                 )
             }
-        }, actions = {
+        },
+        actions = {
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_grid_icon),
-                    contentDescription = "Menu",
-                    tint = Color.DarkGray,
+                Image(
+                    painter = painterResource(id = R.drawable.img),
+                    contentDescription = "Login Image",
                     modifier = Modifier.size(25.dp)
                 )
             }
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_person_placeholder),
-                    contentDescription = "Menu",
-                    tint = Color.DarkGray,
-                    modifier = Modifier.size(25.dp)
-                )
+                RoundedImage()
             }
         }
     )
 }
 
-//@Composable
-//fun RoundedImage() {
-//    Box(
-//        modifier = Modifier.clip(CircleShape),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.ic_person_placeholder),
-//            contentDescription = "Login Image",
-//            modifier = Modifier
-//                .height(34.dp)
-//                .width(34.dp)
-//        )
-//    }
-//}
+@Composable
+fun RoundedImage() {
+    Box(
+        modifier = Modifier.clip(CircleShape),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.yugesh),
+            contentDescription = "Login Image",
+            modifier = Modifier.size(32.dp)
+        )
+    }
+}
 
 
 
