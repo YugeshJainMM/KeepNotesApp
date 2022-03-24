@@ -1,6 +1,5 @@
 package com.example.domain.repository
 
-import com.example.domain.models.Response
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {

@@ -34,9 +34,8 @@ object DataModule {
         notesQuery: Query
     ): NoteRepository = NoteRepositoryImpl(notesRef, notesQuery)
 
-
     @Provides
-    fun provideUseCases(repository: AuthRepository) = AuthUseCases(
+    fun provideUseCases (repository: AuthRepository) = AuthUseCases(
         isUserAuthenticated = IsUserAuthenticated(repository),
         signIn = SignInUseCase(repository),
         signOut = SignOut(repository),
@@ -63,7 +62,7 @@ object DataModule {
     fun provideNotesRef(db: FirebaseFirestore) = db.collection("Notes")
 
     @Provides
-    fun provideNotesQuery(notessRef: CollectionReference) = notessRef.orderBy("Title")
+    fun provideNotesQuery(notesRef: CollectionReference) = notesRef.orderBy("Title")
 
     @Provides
     fun provideFirebaseAuth() = FirebaseAuth.getInstance()
