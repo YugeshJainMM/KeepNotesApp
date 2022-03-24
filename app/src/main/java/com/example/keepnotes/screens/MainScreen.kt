@@ -10,7 +10,9 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.keepnotes.components.*
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {

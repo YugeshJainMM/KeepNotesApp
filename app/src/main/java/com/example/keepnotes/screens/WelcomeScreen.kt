@@ -18,17 +18,16 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.example.domain.models.Response
 import com.example.keepnotes.R
-import com.example.keepnotes.components.ProgressBar
-import com.example.keepnotes.navigation.Screen
-import com.example.keepnotes.ui.theme.primaryColor
+import com.example.keepnotes.screens.destinations.LoginScreenDestination
 import com.example.keepnotes.viewmodel.AuthViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@Destination(start = true)
 @Composable
 fun WelcomeScreen(
-    navController: NavController,
+    navigator: DestinationsNavigator,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val name = remember { mutableStateOf(TextFieldValue()) }
@@ -105,7 +104,7 @@ fun WelcomeScreen(
                 }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(if (passwordVisibility.value) R.drawable.ic_visibility else R.drawable.ic_visibility_off),
-                        tint = if (passwordVisibility.value) primaryColor else Color.Gray,
+                        tint = Color.Gray,
                         contentDescription = "Password Visibility"
                     )
                 }
@@ -131,7 +130,7 @@ fun WelcomeScreen(
                 }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(if (confirmPasswordVisibility.value) R.drawable.ic_visibility else R.drawable.ic_visibility_off),
-                        tint = if (confirmPasswordVisibility.value) primaryColor else Color.Gray,
+                        tint = Color.Gray,
                         contentDescription = "Confirm Password Visibility"
                     )
                 }
@@ -164,7 +163,7 @@ fun WelcomeScreen(
         ) {
             Text(text = "Already Registered? ")
             TextButton(onClick = {
-                navController.navigate(Screen.LoginScreen.route)
+                navigator.navigate(LoginScreenDestination)
             }) {
                 Text(text = "Log In")
             }

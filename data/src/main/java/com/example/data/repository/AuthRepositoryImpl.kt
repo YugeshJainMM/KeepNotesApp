@@ -1,7 +1,6 @@
 package com.example.data.repository
 
 import android.util.Log
-import androidx.navigation.NavController
 import com.example.domain.models.Response
 import com.example.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth

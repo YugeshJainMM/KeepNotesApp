@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 class NoteRepositoryImpl @Inject constructor(
     private val notesRef: CollectionReference,
-    private val notesQuery: Query,
+    private val notesQuery: Query
 ) : NoteRepository {
 
     override suspend fun createNote(title: String, content: String) = flow {

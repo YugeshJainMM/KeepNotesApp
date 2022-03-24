@@ -11,23 +11,23 @@ import com.example.keepnotes.screens.LoginScreen
 import com.example.keepnotes.screens.MainScreen
 import com.example.keepnotes.screens.WelcomeScreen
 
-@Composable
-fun SetupNavGraph(navController: NavHostController) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.RegisterationScreen.route
-    ) {
-        composable(route = Screen.RegisterationScreen.route){
-            WelcomeScreen(navController = navController)
-        }
-        composable(route = Screen.LoginScreen.route) {
-            LoginScreen(navController = navController)
-        }
-        composable(route = Screen.MainScreen.route) {
-            MainScreen()
-        }
-        composable(route = Screen.ForgotPasswordScreen.route) {
-            ForgotPasswordScreen()
-        }
-    }
-}
+//@Composable
+//fun SetupNavGraph(navController: NavHostController) {
+//    NavHost(
+//        navController = navController,
+//        startDestination = Screen.RegisterationScreen.route
+//    ) {
+//        composable(route = Screen.RegisterationScreen.route){
+//            WelcomeScreen(navController = navController)
+//        }
+//        composable(route = Screen.LoginScreen.route) {
+//            LoginScreen(navController = navController)
+//        }
+//        composable(route = Screen.MainScreen.route) {
+//            MainScreen()
+//        }
+//        composable(route = Screen.ForgotPasswordScreen.route) {
+//            ForgotPasswordScreen()
+//        }
+//    }
+//}

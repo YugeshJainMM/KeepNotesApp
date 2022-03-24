@@ -1,8 +1,8 @@
-package com.example.domain.auth_usecases
+package com.example.domain.usecases.auth
 
 import com.example.domain.repository.AuthRepository
 
-class GetAuthState(
+class GetAuthStateUseCase(
     private val repository: AuthRepository
 ) {
     operator fun invoke() = repository.getFirebaseAuthState()

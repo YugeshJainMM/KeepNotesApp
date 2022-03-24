@@ -7,10 +7,10 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.navigation.compose.rememberNavController
-import com.example.keepnotes.navigation.SetupNavGraph
+import com.example.keepnotes.screens.NavGraphs
 import com.example.keepnotes.ui.theme.KeepNotesTheme
 import com.example.keepnotes.viewmodel.MainViewModel
+import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,8 +28,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             KeepNotesTheme {
-                    val navController = rememberNavController()
-                    SetupNavGraph(navController = navController)
+                DestinationsNavHost(navGraph = NavGraphs.root)
 //                MainScreen()
 //                WelcomeScreen()
 //                BottomBar()

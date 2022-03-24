@@ -5,7 +5,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -20,15 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.domain.models.Response
 import com.example.keepnotes.R
-import com.example.keepnotes.components.ProgressBar
-import com.example.keepnotes.navigation.Screen
-import com.example.keepnotes.ui.theme.primaryColor
+import com.example.keepnotes.screens.destinations.ForgotPasswordScreenDestination
 import com.example.keepnotes.viewmodel.AuthViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@Destination
 @Composable
-fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = hiltViewModel()) {
+fun LoginScreen(navigator: DestinationsNavigator, navController: NavController, authViewModel: AuthViewModel = hiltViewModel()) {
 
     val email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
@@ -78,7 +77,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = hil
                 }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(if (passwordVisibility.value) R.drawable.ic_visibility else R.drawable.ic_visibility_off),
-                        tint = if (passwordVisibility.value) primaryColor else Color.Gray,
+                        tint = Color.Gray,
                         contentDescription = "as"
                     )
                 }
@@ -119,8 +118,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = hil
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(onClick = {
-                navController.popBackStack()
-                navController.navigate(Screen.ForgotPasswordScreen.route)
+                navigator.navigate(ForgotPasswordScreenDestination)
             }) {
                 Text(text = "Forgot Password?")
             }

@@ -1,4 +1,4 @@
-package com.example.domain.usecases
+package com.example.domain.usecases.note
 
 import com.example.domain.repository.NoteRepository
 
