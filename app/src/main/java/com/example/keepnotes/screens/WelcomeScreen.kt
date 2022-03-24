@@ -1,5 +1,6 @@
 package com.example.keepnotes.screens
 
+import android.util.Log
 import androidx.compose.material3.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -18,11 +19,17 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.data.repository.AuthRepositoryImpl
+import com.example.domain.models.Response
 import com.example.keepnotes.R
+import com.example.keepnotes.components.ProgressBar
 import com.example.keepnotes.screens.destinations.LoginScreenDestination
+import com.example.keepnotes.screens.destinations.MainScreenDestination
 import com.example.keepnotes.viewmodel.AuthViewModel
+import com.google.api.LogDescriptor
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collect
 
 @Destination(start = true)
 @Composable
@@ -37,6 +44,19 @@ fun WelcomeScreen(
     val confirmPassword = remember { mutableStateOf("") }
     val passwordVisibility = remember { mutableStateOf(false) }
     val confirmPasswordVisibility = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        authViewModel.register.collect{
+            when (it) {
+                is Response.Success ->
+                        navigator.navigate(MainScreenDestination)
+                is Response.Error -> Log.d("TAG", it.message)
+                else -> {
+                    Log.d("TAG", "REGISTRATION ELSE BLOCK")
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -152,7 +172,7 @@ fun WelcomeScreen(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
         ) {
-            Text(text = "RegisterUseCase")
+            Text(text = "Register")
         }
         Row(
             modifier = Modifier

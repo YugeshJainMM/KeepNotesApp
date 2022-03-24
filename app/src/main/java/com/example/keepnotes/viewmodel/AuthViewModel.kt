@@ -9,6 +9,7 @@ import com.example.domain.usecases.auth.AuthUseCases
 import com.example.domain.models.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,16 +18,16 @@ class AuthViewModel @Inject constructor(
     private val authUseCases: AuthUseCases
 ): ViewModel() {
 
-    var register: Any by mutableStateOf(Response.Success(null))
+    var register = MutableSharedFlow<Response<Any>>()
         private set
 
-    var signin: Any by mutableStateOf(Response.Success(null))
+    var signin = MutableSharedFlow<Response<Any>>()
         private set
 
     fun registerUser(email: String, password: String, name: String, phone: String) {
         viewModelScope.launch(Dispatchers.IO) {
             authUseCases.register(email, password, name, phone).collect{
-                register = it
+                register.emit(Response.Success(it))
             }
         }
     }
@@ -34,7 +35,7 @@ class AuthViewModel @Inject constructor(
     fun signInUser(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             authUseCases.signIn(email, password).collect{
-               signin = it
+               signin.emit(Response.Success(it))
             }
         }
     }

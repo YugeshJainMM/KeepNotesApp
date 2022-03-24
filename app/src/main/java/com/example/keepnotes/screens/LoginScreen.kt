@@ -1,10 +1,12 @@
 package com.example.keepnotes.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,20 +20,34 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.example.domain.models.Response
 import com.example.keepnotes.R
 import com.example.keepnotes.screens.destinations.ForgotPasswordScreenDestination
+import com.example.keepnotes.screens.destinations.MainScreenDestination
 import com.example.keepnotes.viewmodel.AuthViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
 @Composable
-fun LoginScreen(navigator: DestinationsNavigator, navController: NavController, authViewModel: AuthViewModel = hiltViewModel()) {
+fun LoginScreen(navigator: DestinationsNavigator, authViewModel: AuthViewModel = hiltViewModel()) {
 
     val email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
     val passwordVisibility = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        authViewModel.signin.collect{
+            when (it) {
+                is Response.Success ->
+                    navigator.navigate(MainScreenDestination)
+                is Response.Error -> Log.d("TAG", it.message)
+                else -> {
+                    Log.d("TAG", "LOGIN ELSE BLOCK")
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.padding(25.dp)
@@ -92,18 +108,6 @@ fun LoginScreen(navigator: DestinationsNavigator, navController: NavController, 
                     email.value.text.trim(),
                     password.value.text.trim()
                 )
-//                when(val response = authViewModel.signInState.value) {
-//                    is Response.Loading -> ProgressBar()
-//                    is Response.Success -> if (response.data) {
-//                        LaunchedEffect(response.data) {
-//                            navController.popBackStack()
-//                            navController.navigate(Screen.MainScreen.route)
-//                        }
-//                    }
-//                    is Error -> LaunchedEffect(Unit) {
-//                        printError(response.message)
-//                    }
-//                }
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
