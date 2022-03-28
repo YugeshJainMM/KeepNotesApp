@@ -1,5 +1,7 @@
 package com.example.keepnotes.components
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -22,12 +24,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.keepnotes.R
+import com.example.keepnotes.screens.destinations.WelcomeScreenDestination
 import com.example.keepnotes.ui.theme.whiteBackground
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopNavBar(drawerState: DrawerState) {
+fun TopNavBar(drawerState: DrawerState, onClick: Unit) {
 
     val coroutineScope = rememberCoroutineScope()
     val search = remember { mutableStateOf(TextFieldValue()) }
@@ -65,7 +69,10 @@ fun TopNavBar(drawerState: DrawerState) {
                     modifier = Modifier.size(25.dp)
                 )
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                onClick
+                Log.d("TAG", "Logged Out ")
+            }) {
                 RoundedImage()
             }
         }
@@ -85,6 +92,3 @@ fun RoundedImage() {
         )
     }
 }
-
-
-

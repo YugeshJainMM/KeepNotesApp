@@ -5,5 +5,5 @@ import com.example.domain.repository.NoteRepository
 class ReadNoteUseCase(
     private val noteRepository: NoteRepository
 ) {
-    operator fun invoke() = noteRepository.readNote()
+    suspend operator fun invoke() = noteRepository.readNote()
 }

@@ -4,14 +4,16 @@ import android.util.Log
 import com.example.domain.models.Response
 import com.example.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 @ExperimentalCoroutinesApi
@@ -20,7 +22,6 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
 
     override fun isUserAuthenticatedInFirebase() = auth.currentUser != null
-
     override suspend fun signIn(email: String, password: String) = flow {
         try {
             emit(Response.Loading)
@@ -77,7 +78,6 @@ class AuthRepositoryImpl @Inject constructor(
                             userCollectionRef.document(firebaseUser.uid)
                                 .set(user)
                                 .addOnSuccessListener {
-//                                    navController.navigate(Screen.MainScreen.route)
                                     Log.d(
                                         "TAG",
                                         "DocumentSnapshot successfully written!"

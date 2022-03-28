@@ -9,17 +9,25 @@ import com.example.domain.usecases.note.NotesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesViewModel @Inject constructor(private val notesUseCase: NotesUseCase): ViewModel() {
+class NotesViewModel @Inject constructor(private val notesUseCase: NotesUseCase) : ViewModel() {
 
-    var notesState: Response<List<Note>> by mutableStateOf(Response.Loading)
+//    private val _booksState = mutableStateOf<List<Note>>()
+//    val booksState: State<List<Note>> = _booksState
+
+    var notessData = mutableStateOf<List<Note?>>(emptyList())
         private set
 
-    var isNoteAddedState: Response<Void?> by mutableStateOf(Response.Success(null))
-        private set
+    private val _isNoteAddedState = mutableStateOf<Response<Void?>>(Response.Success(null))
+    val isNoteAddedState: State<Response<Void?>> = _isNoteAddedState
+
+//    var isNoteAddedState: Response<Void?> by mutableStateOf(Response.Success(null))
+//        private set
+
     var openDialogState = mutableStateOf(false)
 
     var isNoteUpdatedState: Response<Void?> by mutableStateOf(Response.Success(null))
@@ -35,8 +43,8 @@ class NotesViewModel @Inject constructor(private val notesUseCase: NotesUseCase)
     @OptIn(InternalCoroutinesApi::class)
     private fun getNotes() {
         viewModelScope.launch {
-            notesUseCase.readNote().collect{
-
+            notesUseCase.readNote().collect {
+                notessData.value = it
             }
         }
     }
@@ -44,7 +52,7 @@ class NotesViewModel @Inject constructor(private val notesUseCase: NotesUseCase)
     fun createNote(title: String, content: String) {
         viewModelScope.launch(Dispatchers.IO) {
             notesUseCase.createNote(title, content).collect {
-                isNoteAddedState = it
+                _isNoteAddedState.value = it
             }
         }
     }

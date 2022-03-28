@@ -4,6 +4,7 @@ import com.example.data.repository.AuthRepositoryImpl
 import com.example.data.repository.NoteRepositoryImpl
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.NoteRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query

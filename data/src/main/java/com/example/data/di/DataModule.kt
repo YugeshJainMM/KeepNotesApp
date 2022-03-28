@@ -21,11 +21,13 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideNotesRef(db: FirebaseFirestore) = db.collection("Notes")
+    fun provideNotesRef(db: FirebaseFirestore) =
+        db.collection("users").document(FirebaseAuth.getInstance().uid.toString())
+            .collection("notes")
 
     @Provides
     @Singleton
-    fun provideNotesQuery(notesRef: CollectionReference) = notesRef.orderBy("Title")
+    fun provideNotesQuery(notesRef: CollectionReference) = notesRef.orderBy("title")
 
     @Provides
     @Singleton

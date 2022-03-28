@@ -129,4 +129,3 @@ fun LoginScreen(navigator: DestinationsNavigator, authViewModel: AuthViewModel =
         }
     }
 }
-

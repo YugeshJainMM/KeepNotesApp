@@ -1,7 +1,7 @@
 package com.example.domain.models
 
 data class Note(
-    val id: String,
-    val title: String,
-    val content: String
+    var id: String? = null,
+    var title: String? = null,
+    var content: String? = null
 )

@@ -19,17 +19,14 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.data.repository.AuthRepositoryImpl
 import com.example.domain.models.Response
 import com.example.keepnotes.R
-import com.example.keepnotes.components.ProgressBar
 import com.example.keepnotes.screens.destinations.LoginScreenDestination
 import com.example.keepnotes.screens.destinations.MainScreenDestination
 import com.example.keepnotes.viewmodel.AuthViewModel
-import com.google.api.LogDescriptor
+import com.google.firebase.auth.FirebaseAuth
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.flow.collect
 
 @Destination(start = true)
 @Composable
@@ -183,14 +180,17 @@ fun WelcomeScreen(
         ) {
             Text(text = "Already Registered? ")
             TextButton(onClick = {
-                navigator.navigate(LoginScreenDestination)
+                if(FirebaseAuth.getInstance().currentUser!=null)
+                {
+                    navigator.navigate(MainScreenDestination)
+
+                }else{
+                    navigator.navigate(LoginScreenDestination)
+
+                }
             }) {
                 Text(text = "Log In")
             }
         }
     }
 }
-
-
-
-
