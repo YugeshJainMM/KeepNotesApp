@@ -7,7 +7,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.domain.models.Note
 import com.google.firebase.ktx.Firebase
 
@@ -30,7 +33,7 @@ fun StaggeredGrid(
                 modifier = Modifier.padding(5.dp)
             ) {
                 note.forEach {
-                    it?.content.let { text ->
+                    it?.let { text ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -39,10 +42,31 @@ fun StaggeredGrid(
                             border = BorderStroke(0.1.dp, Color.Gray),
                             shape = RoundedCornerShape(10.dp)
                         ) {
+                            if (it.title != null) {
+                                Text(
+                                    text = text.title.toString(),
+                                    color = Color.DarkGray,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier.padding(
+                                        top = 12.dp,
+                                        start = 12.dp,
+                                        end = 12.dp
+                                    ),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                             Text(
-                                text = text.toString(),
+                                text = text.content.toString(),
                                 color = Color.Gray,
-                                modifier = Modifier.padding(16.dp)
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(
+                                    12.dp
+                                ),
+                                maxLines = 11,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                     }
@@ -51,10 +75,3 @@ fun StaggeredGrid(
         }
     }
 }
-
-val staggeredText = listOf(
-    "Many of life’s failures are people who did not realize how close they were to success when they gave up. – Thomas A. Edison",
-    "Your time is limited, so don’t waste it living someone else’s life. Don’t be trapped by dogma – which is living with the results of other people’s thinking. – Steve Jobs",
-    "In order to write about life first you must live it. – Ernest Hemingway",
-    "Sing like no one’s listening, love like you’ve never been hurt, dance like nobody’s watching, and live like it’s heaven on earth. - Many Sources",
-)

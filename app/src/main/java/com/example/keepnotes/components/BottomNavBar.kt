@@ -1,14 +1,13 @@
 package com.example.keepnotes.components
 
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,34 +16,68 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.keepnotes.destinations.AddNoteScreenDestination
+import com.example.keepnotes.destinations.CameraIntegrationDestination
+import com.example.keepnotes.destinations.MainCameraContentDestination
+import com.example.keepnotes.sample.CameraViews
 import com.example.keepnotes.ui.theme.whiteBackground
-import com.example.keepnotes.viewmodel.NotesViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.coroutineScope
 
 @Composable
-fun BottomNavBar() {
+fun BottomNavBar(navigator: DestinationsNavigator) {
     BottomAppBar(
-        modifier = Modifier.padding(bottom = 40.dp).clip(RoundedCornerShape(30.dp)),
+        modifier = Modifier
+            .padding(bottom = 40.dp)
+            .clip(RoundedCornerShape(30.dp)),
         containerColor = whiteBackground,
         content = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
-                BottomNavItem(icon = R.drawable.ic_outline_checkbox, description = "New List")
-                BottomNavItem(icon = R.drawable.ic_outline_brush, description = "Draw Pad")
-                BottomNavItem(icon = R.drawable.ic_outlined_mic, description = "Voice Notes")
-                BottomNavItem(icon = R.drawable.ic_outline_image, description = "Add Image")
+                BottomNavItem(
+                    icon = R.drawable.ic_outline_checkbox,
+                    description = "New List",
+                    navigator
+                )
+                BottomNavItem(
+                    icon = R.drawable.ic_outline_brush,
+                    description = "Draw Pad",
+                    navigator
+                )
+                BottomNavItem(
+                    icon = R.drawable.ic_outlined_mic,
+                    description = "Voice Notes",
+                    navigator
+                )
+                BottomNavItem(
+                    icon = R.drawable.ic_outline_image,
+                    description = "Add Image",
+                    navigator
+                )
             }
         }
     )
 }
 
+@OptIn(
+    ExperimentalPermissionsApi::class, coil.annotation.ExperimentalCoilApi::class,
+    kotlinx.coroutines.ExperimentalCoroutinesApi::class
+)
+@Destination
 @Composable
 fun BottomNavItem(
     icon: Int,
-    description: String
-){
-    IconButton(onClick = { /*TODO*/ }) {
+    description: String,
+    navigator: DestinationsNavigator
+) {
+    var bitmap: Bitmap? = null
+    IconButton(onClick = {
+        navigator.navigate(MainCameraContentDestination)
+    }) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = description,
@@ -55,10 +88,10 @@ fun BottomNavItem(
 
 @Composable
 fun FabBtn(
-    notesViewModel: NotesViewModel
+    navigator: DestinationsNavigator
 ) {
     FloatingActionButton(
-        onClick = { notesViewModel.openDialogState.value = true },
+        onClick = { navigator.navigate(AddNoteScreenDestination) },
         shape = RoundedCornerShape(30),
         containerColor = whiteBackground
     ) {

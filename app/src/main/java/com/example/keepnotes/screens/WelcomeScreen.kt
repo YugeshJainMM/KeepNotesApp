@@ -21,8 +21,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.models.Response
 import com.example.keepnotes.R
-import com.example.keepnotes.screens.destinations.LoginScreenDestination
-import com.example.keepnotes.screens.destinations.MainScreenDestination
+import com.example.keepnotes.destinations.LoginScreenDestination
+import com.example.keepnotes.destinations.MainScreenDestination
+import com.example.keepnotes.utils.RemoteConfigUtils
 import com.example.keepnotes.viewmodel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.ramcosta.composedestinations.annotation.Destination
@@ -182,6 +183,7 @@ fun WelcomeScreen(
             TextButton(onClick = {
                 if(FirebaseAuth.getInstance().currentUser!=null)
                 {
+
                     navigator.navigate(MainScreenDestination)
 
                 }else{
@@ -189,7 +191,7 @@ fun WelcomeScreen(
 
                 }
             }) {
-                Text(text = "Log In")
+                Text(text = RemoteConfigUtils.getLoginButtonText())
             }
         }
     }

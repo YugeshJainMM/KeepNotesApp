@@ -20,7 +20,6 @@ object DataModule {
     fun provideFirebaseFirestore() = FirebaseFirestore.getInstance()
 
     @Provides
-    @Singleton
     fun provideNotesRef(db: FirebaseFirestore) =
         db.collection("users").document(FirebaseAuth.getInstance().uid.toString())
             .collection("notes")

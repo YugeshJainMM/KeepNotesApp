@@ -1,5 +1,6 @@
 package com.example.keepnotes.screens
 
+import android.os.Bundle
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,9 +23,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.models.Response
 import com.example.keepnotes.R
-import com.example.keepnotes.screens.destinations.ForgotPasswordScreenDestination
-import com.example.keepnotes.screens.destinations.MainScreenDestination
+import com.example.keepnotes.destinations.ForgotPasswordScreenDestination
+import com.example.keepnotes.destinations.MainScreenDestination
 import com.example.keepnotes.viewmodel.AuthViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.internal.analytics.AnalyticsEventLogger
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -102,12 +105,15 @@ fun LoginScreen(navigator: DestinationsNavigator, authViewModel: AuthViewModel =
             else PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.height(16.dp))
+        val bundle = Bundle()
         Button(
             onClick = {
                 authViewModel.signInUser(
                     email.value.text.trim(),
                     password.value.text.trim()
                 )
+//                bundle.putString(FirebaseAnalytics.Param.METHOD, method)
+//                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),

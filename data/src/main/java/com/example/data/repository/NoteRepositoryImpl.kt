@@ -22,8 +22,6 @@ class NoteRepositoryImpl @Inject constructor(
     private val notesQuery: Query
 ) : NoteRepository {
 
-
-    private val noteCollectionRef = Firebase.firestore.collection("users").document()
     override suspend fun createNote(title: String, content: String) = flow {
         try {
             emit(Response.Loading)

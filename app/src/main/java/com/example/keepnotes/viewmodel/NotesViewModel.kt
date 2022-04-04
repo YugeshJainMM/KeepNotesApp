@@ -1,5 +1,6 @@
 package com.example.keepnotes.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,17 +8,15 @@ import com.example.domain.models.Note
 import com.example.domain.models.Response
 import com.example.domain.usecases.note.NotesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesViewModel @Inject constructor(private val notesUseCase: NotesUseCase) : ViewModel() {
-
-//    private val _booksState = mutableStateOf<List<Note>>()
-//    val booksState: State<List<Note>> = _booksState
+class NotesViewModel @Inject constructor(private val notesUseCase: NotesUseCase,
+@ApplicationContext context: Context) : ViewModel() {
 
     var notessData = mutableStateOf<List<Note?>>(emptyList())
         private set

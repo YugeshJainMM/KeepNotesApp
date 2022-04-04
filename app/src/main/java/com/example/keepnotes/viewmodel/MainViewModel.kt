@@ -1,5 +1,6 @@
 package com.example.keepnotes.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -12,10 +13,16 @@ class MainViewModel: ViewModel() {
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
+    var openBiometricState = MutableStateFlow(false)
+
     init {
         viewModelScope.launch {
             delay(3000)
             _isLoading.value = false
         }
+    }
+
+    fun biometricsValue(isSuccess: Boolean){
+        openBiometricState.value = isSuccess
     }
 }

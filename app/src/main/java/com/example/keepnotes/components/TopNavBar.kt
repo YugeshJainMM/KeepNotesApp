@@ -24,14 +24,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.keepnotes.R
-import com.example.keepnotes.screens.destinations.WelcomeScreenDestination
+import com.example.keepnotes.destinations.WelcomeScreenDestination
 import com.example.keepnotes.ui.theme.whiteBackground
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopNavBar(drawerState: DrawerState, onClick: Unit) {
+fun TopNavBar(drawerState: DrawerState, onClick: Unit, navigator: DestinationsNavigator) {
 
     val coroutineScope = rememberCoroutineScope()
     val search = remember { mutableStateOf(TextFieldValue()) }
@@ -71,6 +71,7 @@ fun TopNavBar(drawerState: DrawerState, onClick: Unit) {
             }
             IconButton(onClick = {
                 onClick
+                navigator.navigate(WelcomeScreenDestination)
                 Log.d("TAG", "Logged Out ")
             }) {
                 RoundedImage()
