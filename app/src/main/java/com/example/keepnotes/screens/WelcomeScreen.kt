@@ -44,14 +44,11 @@ fun WelcomeScreen(
     val confirmPasswordVisibility = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
-        authViewModel.register.collect{
+        authViewModel.register.collect {
             when (it) {
-                is Response.Success ->
-                        navigator.navigate(MainScreenDestination)
+                is Response.Success -> navigator.navigate(MainScreenDestination)
                 is Response.Error -> Log.d("TAG", it.message)
-                else -> {
-                    Log.d("TAG", "REGISTRATION ELSE BLOCK")
-                }
+                else -> { Log.d("TAG", "REGISTRATION ELSE BLOCK") }
             }
         }
     }
@@ -181,12 +178,11 @@ fun WelcomeScreen(
         ) {
             Text(text = "Already Registered? ")
             TextButton(onClick = {
-                if(FirebaseAuth.getInstance().currentUser!=null)
-                {
+                if (FirebaseAuth.getInstance().currentUser != null) {
 
                     navigator.navigate(MainScreenDestination)
 
-                }else{
+                } else {
                     navigator.navigate(LoginScreenDestination)
 
                 }

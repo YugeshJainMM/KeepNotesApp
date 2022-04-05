@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -74,7 +75,7 @@ fun MainCameraContent(modifier: Modifier = Modifier) {
                                 imageUri.toString(),
                                 "image/jpg"
                             ) {
-                                Log.d("TAG", "Uploaded")
+                                Log.d("TAG", it)
                             }
                         }
 
@@ -127,7 +128,6 @@ private suspend fun uploadPhoto(
     } else {
         fileRef.putFile(uri).await()
     }
-
     callback(fileRef.downloadUrl.await().toString())
 }
 

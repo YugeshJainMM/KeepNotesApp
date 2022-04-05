@@ -42,12 +42,9 @@ fun LoginScreen(navigator: DestinationsNavigator, authViewModel: AuthViewModel =
     LaunchedEffect(key1 = true) {
         authViewModel.signin.collect{
             when (it) {
-                is Response.Success ->
-                    navigator.navigate(MainScreenDestination)
+                is Response.Success -> navigator.navigate(MainScreenDestination)
                 is Response.Error -> Log.d("TAG", it.message)
-                else -> {
-                    Log.d("TAG", "LOGIN ELSE BLOCK")
-                }
+                else -> { Log.d("TAG", "LOGIN ELSE BLOCK") }
             }
         }
     }
