@@ -17,9 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.keepnotes.destinations.AddNoteScreenDestination
-import com.example.keepnotes.destinations.CameraIntegrationDestination
 import com.example.keepnotes.destinations.MainCameraContentDestination
-import com.example.keepnotes.sample.CameraViews
 import com.example.keepnotes.ui.theme.whiteBackground
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.ramcosta.composedestinations.annotation.Destination

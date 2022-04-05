@@ -21,7 +21,6 @@ fun BiometricPopup() {
     Scaffold {
         Text(text = "hi")
     }
-//    initBioMetric(LocalContext.current as FragmentActivity)
 
     fun initBioMetric(fragmentActivity: FragmentActivity) {
         executor = ContextCompat.getMainExecutor(context)

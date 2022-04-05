@@ -7,4 +7,9 @@
     <string name="validatePasswordError">Password must be a combination of UpperCase and LowerCase Letters, a number and atleast 8 characters</string>
     <string name="validateArePasswordEqualError">Passwords do not match with each other</string>
 
+    <string name="prompt_info_title">Fingerprint Login \n</string>
+    <string name="prompt_info_subtitle">Please login to get access</string>
+    <string name="prompt_info_description">Sample App is using Android biometric authentication</string>
+    <string name="prompt_info_use_app_password">Use app password</string>
+
 </resources>
