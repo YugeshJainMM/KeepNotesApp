@@ -1,5 +1,6 @@
 package com.example.keepnotes.screens
 
+import android.os.Bundle
 import android.util.Log
 import androidx.compose.material3.*
 import androidx.compose.foundation.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,7 +27,11 @@ import com.example.keepnotes.destinations.LoginScreenDestination
 import com.example.keepnotes.destinations.MainScreenDestination
 import com.example.keepnotes.utils.RemoteConfigUtils
 import com.example.keepnotes.viewmodel.AuthViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.Param.*
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -42,13 +48,16 @@ fun WelcomeScreen(
     val confirmPassword = remember { mutableStateOf("") }
     val passwordVisibility = remember { mutableStateOf(false) }
     val confirmPasswordVisibility = remember { mutableStateOf(false) }
+    val mFirebaseAnalytics = FirebaseAnalytics.getInstance(LocalContext.current)
 
     LaunchedEffect(key1 = true) {
         authViewModel.register.collect {
             when (it) {
                 is Response.Success -> navigator.navigate(MainScreenDestination)
                 is Response.Error -> Log.d("TAG", it.message)
-                else -> { Log.d("TAG", "REGISTRATION ELSE BLOCK") }
+                else -> {
+                    Log.d("TAG", "REGISTRATION ELSE BLOCK")
+                }
             }
         }
     }
@@ -163,6 +172,11 @@ fun WelcomeScreen(
                     name.value.text,
                     phone.value.text
                 )
+                val bundle = Bundle()
+                bundle.putString(METHOD, "method")
+                Firebase.analytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
+//                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
+
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -178,16 +192,16 @@ fun WelcomeScreen(
         ) {
             Text(text = "Already Registered? ")
             TextButton(onClick = {
+                val bundle = Bundle()
+                bundle.putString(METHOD, "method")
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
                 if (FirebaseAuth.getInstance().currentUser != null) {
-
                     navigator.navigate(MainScreenDestination)
-
                 } else {
                     navigator.navigate(LoginScreenDestination)
-
                 }
             }) {
-                Text(text = RemoteConfigUtils.getLoginButtonText())
+                Text(text = authViewModel.getLoginButtonText())
             }
         }
     }

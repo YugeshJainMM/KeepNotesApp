@@ -109,8 +109,6 @@ fun LoginScreen(navigator: DestinationsNavigator, authViewModel: AuthViewModel =
                     email.value.text.trim(),
                     password.value.text.trim()
                 )
-//                bundle.putString(FirebaseAnalytics.Param.METHOD, method)
-//                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),

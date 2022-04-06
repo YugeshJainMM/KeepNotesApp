@@ -18,22 +18,28 @@ import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateViewModelFactory
 import com.example.keepnotes.destinations.MainScreenDestination
 import com.example.keepnotes.destinations.WelcomeScreenDestination
 import com.example.keepnotes.ui.theme.KeepNotesTheme
 import com.example.keepnotes.utils.RemoteConfigUtils
+import com.example.keepnotes.viewmodel.AuthViewModel
 import com.example.keepnotes.viewmodel.MainViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
 
     private var cancellationSignal: CancellationSignal? = null
-    private var authenticated =  mutableStateOf(false)
+    private var authenticated = mutableStateOf(false)
     private val viewModel: MainViewModel by viewModels {
         SavedStateViewModelFactory(application, this)
     }
@@ -45,35 +51,50 @@ class MainActivity : FragmentActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RemoteConfigUtils.init()
         installSplashScreen().apply {
             viewModel.isLoading.value
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        FirebaseRemoteConfig.getInstance().apply {
+            setConfigSettingsAsync(remoteConfigSettings {
+                minimumFetchIntervalInSeconds = 5
+            })
+            setDefaultsAsync(RemoteConfigUtils.DEFAULTS)
+        }
         setContent {
             KeepNotesTheme {
                 val state = viewModel.openBiometricState.collectAsState()
-                launchBiometric()
+
+                if (viewModel.getBiometricsBoolean()) {
+                    launchBiometric()
+                } else {
+                    authenticated.value = true
+                }
+//                launchBiometric()
                 if (authenticated.value) {
                     DestinationsNavHost(
                         navGraph = NavGraphs.root,
                         startDestination =
                         if (FirebaseAuth.getInstance().currentUser != null) {
                             if (state.value) {
+                                authenticated.value = true
                                 MainScreenDestination
                             } else {
+                                authenticated.value = true
                                 WelcomeScreenDestination
                             }
                         } else {
+                            authenticated.value = true
                             WelcomeScreenDestination
                         }
                     )
                 } else {
-                    Log.d("TAG", "Biometrics failed")
+                    Log.d("TAG", "Biometrics SUCCESS")
                 }
             }
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun checkBiometricSupport(): Boolean {
@@ -121,32 +142,35 @@ class MainActivity : FragmentActivity() {
             }
         }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     private fun launchBiometric() {
-        if (checkBiometricSupport()) {
-            val biometricPrompt = android.hardware.biometrics.BiometricPrompt.Builder(this)
-                .apply {
-                    setTitle(getString(R.string.prompt_info_title))
-                    setSubtitle(getString(R.string.prompt_info_subtitle))
-                    setConfirmationRequired(false)
-                    setNegativeButton(
-                        getString(R.string.prompt_info_use_app_password),
-                        mainExecutor
-                    ) { _, _ ->
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Authentication Cancelled",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }.build()
-
-            biometricPrompt.authenticate(
-                getCancellationSignal(),
-                mainExecutor,
-                authenticationCallback
-            )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (checkBiometricSupport()) {
+                val biometricPrompt = android.hardware.biometrics.BiometricPrompt.Builder(this)
+                    .apply {
+                        setTitle(getString(R.string.prompt_info_title))
+                        setSubtitle(getString(R.string.prompt_info_subtitle))
+                        setConfirmationRequired(false)
+                        setNegativeButton(
+                            getString(R.string.prompt_info_use_app_password),
+                            mainExecutor
+                        ) { _, _ ->
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Authentication Cancelled",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }.build()
+                biometricPrompt.authenticate(
+                    getCancellationSignal(),
+                    mainExecutor,
+                    authenticationCallback
+                )
+            }
+        } else {
+            authenticated.value = true
         }
+
     }
 
     private fun getCancellationSignal(): CancellationSignal {
